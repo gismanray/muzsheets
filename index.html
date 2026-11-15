@@ -7,14 +7,14 @@
     a    { color: blue; text-decoration: none; }
     a:hover { color: red; }
     .simsun {font-family: simsun; }
-    .toc  { position:absolute; left:0px; top:0px; width:380px; height:100%; padding:10px; overflow-x:hidden; overflow-y:auto; border:1px solid red; }
+    .toc  { position:absolute; left:0px; top:0px; width:380px; height:100%; padding:10px; overflow-x:hidden; overflow-y:auto; }
     #pdf { position:absolute; left: 405px; top:0px; width:900px; height:100%; }
     span { color: blue; cursor: pointer; }
     span:hover { color:red; }
   </style>
   <script>
     function show(file) {
-      document.getElementById('pdf').data = "pdf/"+file;
+      document.getElementById('pdf').data = "pdf/"+file+"#toolbar=0&navpanes=0&scrollbar=0";
     }
   </script>
 </head>
@@ -24,7 +24,8 @@
   <ol>
     <!--<li><a href="pdf/Bach_Air_On_The_G_String.pdf" target="_blank">Bach: Air on the G String</a></li>-->
     <li><span onclick="show('Bach_Air_On_The_G_String.pdf')">Bach: Air on the G String</span></li>
-    <li><a href="pdf/Beethoven_Minuet_in_G.pdf" target="_blank">Beethoven: Minuet in G</a></li>
+    <!--<li><a href="pdf/Beethoven_Minuet_in_G.pdf" target="_blank">Beethoven: Minuet in G</a></li> -->
+    <li><span onclick="show('Beethoven_Minuet_in_G.pdf')">Beethoven: Minuet in G</span></li>
     <li><a href="pdf/Clair_de_Lune_for_Violin.pdf" target="_blank">Debussy: Clair de Lune for Violin</a></li>
     <li><a href="pdf/Ave_Maria.pdf" target="_blank">Gounod: Ave Maria</a></li>
     <li><a href="pdf/Mozart_Minuet_in_D.pdf" target="_blank">Mozart: Minuet in D</a></li>
