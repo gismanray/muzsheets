@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto 20px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+		#pdf-container { position: absolute; left:405px; top:0px; }
+		#toc { position: absolute; left:0px; top:0px; width:380px; padding: 10px; }
+		.lnk { color: blue; cursor: pointer; }
+		.lnk:hover { color: red; }
+    </style>
+</head>
+
+<script type="module">
+	import * as pdfjsLib from
+		"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
+
+	pdfjsLib.GlobalWorkerOptions.workerSrc =
+	  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
+	
+    async function loadPdf(pdfUrl) {
+		document.getElementById("pdf-container").innerHTML = '';
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+
+            const viewport = page.getViewport({ scale: 1.5 });
+
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            document.getElementById("pdf-container").appendChild(canvas);
+
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+        }
+    } 
+
+	window.loadPdf = loadPdf;
+	window.onload = main;
+	
+	function main() {
+		const pdfUrl = "https://gismanray.github.io/muzsheets/pdf/sdd-violin.pdf";
+		loadPdf(pdfUrl).catch(console.error);
+	}
+</script>
+
+<body>
+<div id="pdf-container"></div>
+<div id="toc">
+<h1 style="font-family:arial; text-align:center; text-shadow:1px 1px 5px #808080; margin-top:10pt;">MY SHEET MUSIC</h1>
+<ul>
+	<li><span class="lnk" onclick="loadPdf('https://gismanray.github.io/muzsheets/pdf/Bach_Air_On_The_G_String.pdf')">Bach: Air on the G String</span></li>
+</ul>
+</div>
+</body>
+</html>
