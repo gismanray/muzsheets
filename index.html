@@ -57,20 +57,20 @@
         }
     } 
 
+	async function addEvents() {
+		const items = document.getElementsByClassName('lnk');
+		Array.from(items).forEach((item, index) => {
+			console.log(index + ": " + item.innerText);
+		});
+	}
+
 	window.loadPdf = loadPdf;	// because this script is in a module, this line exports the loadPdf() function
 	window.onload = main;
 	
 	function main() {
 		const pdfUrl = "Bach_Air_On_The_G_String.pdf";
 		loadPdf(pdfUrl).catch(console.error);
-		addEvent();
-	}
-
-	async function addEvents() {
-		const items = document.getElementsByClassName('lnk');
-		Array.from(items).forEach((item, index) => {
-			alert(index + ": " + item.innerText);
-		});
+		addEvents();
 	}
 </script>
 
