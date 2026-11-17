@@ -58,10 +58,10 @@
     } 
 
 	window.loadPdf = loadPdf;	// because this script is in a module, this line exports the loadPdf() function
-	//window.onload = main;
+	window.onload = main;
 	
 	function main() {
-		const pdfUrl = "sdd-violin.pdf";
+		const pdfUrl = "Bach_Air_On_The_G_String.pdf";
 		loadPdf(pdfUrl).catch(console.error);
 	}
 </script>
