@@ -63,6 +63,14 @@
 	function main() {
 		const pdfUrl = "Bach_Air_On_The_G_String.pdf";
 		loadPdf(pdfUrl).catch(console.error);
+		addEvent();
+	}
+
+	function addEvents() {
+		const items = document.getElementsByClassName('lnk');
+		items.forEach(item, index) => {
+			alert(item.innerText);
+		}
 	}
 </script>
 
