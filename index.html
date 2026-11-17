@@ -68,9 +68,9 @@
 
 	function addEvents() {
 		const items = document.getElementsByClassName('lnk');
-		Array.from(items).forEach(item) => {
-			alert(item.innerText);
-		}
+		Array.from(items).forEach((item, index) => {
+			alert(index + ": " + item.innerText);
+		});
 	}
 </script>
 
