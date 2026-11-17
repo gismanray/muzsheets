@@ -66,7 +66,7 @@
 		addEvent();
 	}
 
-	function addEvents() {
+	async function addEvents() {
 		const items = document.getElementsByClassName('lnk');
 		Array.from(items).forEach((item, index) => {
 			alert(index + ": " + item.innerText);
