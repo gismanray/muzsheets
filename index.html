@@ -27,6 +27,7 @@
 </head>
 
 <script type="module">	// some elements in pdf.js requires type="module"
+	var tocitem = null;
 	import * as pdfjsLib from
 		"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
 
@@ -60,7 +61,15 @@
 	async function addEvents() {
 		const items = document.getElementsByClassName('lnk');
 		Array.from(items).forEach((item, index) => {
-			console.log(index + ": " + item.innerText);
+			//console.log(index + ": " + item.innerText);
+			item.addEventListener("click", function(e) {
+				this.classList.remove('lnk');
+				this.style.color = "#ff0000";
+				if (tocitem) {
+					tocitem.classList.add('lnk');
+				}
+				tocitem = item;
+			})
 		});
 	}
 
