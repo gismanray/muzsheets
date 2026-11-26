@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Sheet Music</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto 20px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+		#pdf-container { position: absolute; left:405px; top:0px; }
+		#toc { position: absolute; left:0px; top:0px; width:380px; padding: 10px; }
+		.lnk { color: blue; cursor: pointer; }
+		.lnk:hover { color: red; }
+		.simsun { font-family: simsun; }
+		li   { line-height: 18pt; }
+    </style>
+</head>
+
+<script type="module">	// some elements in pdf.js requires type="module"
+	var tocitem = null;
+	import * as pdfjsLib from
+		"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.mjs";
+
+	pdfjsLib.GlobalWorkerOptions.workerSrc =
+	  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.mjs";
+	
+    async function loadPdf(pdfUrl) {
+		document.getElementById("pdf-container").innerHTML = '';
+		const pdf = await pdfjsLib.getDocument("https://gismanray.github.io/muzsheets/pdf/"+pdfUrl).promise;
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+
+            const viewport = page.getViewport({ scale: 1.5 });
+
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            document.getElementById("pdf-container").appendChild(canvas);
+
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+        }
+    } 
+
+	async function addEvents() {
+		const items = document.getElementsByClassName('lnk');
+		Array.from(items).forEach((item, index) => {
+			//console.log(index + ": " + item.innerText);
+			item.addEventListener("click", function(e) {
+				loadPdf(this.getAttribute("data"));
+				this.classList.remove('lnk');
+				this.style.color = "#ff0000";
+				if (tocitem) {
+					tocitem.style.color = "";
+					tocitem.classList.add('lnk');
+				}
+				tocitem = item;
+			})
+		});
+	}
+
+	window.loadPdf = loadPdf;	// because this script is in a module, this line exports the loadPdf() function
+	window.onload = main;
+	
+	function main() {
+		addEvents();
+		document.getElementsByClassName('lnk')[0].click();
+	}
+</script>
+
+<body oncontextmenu="return false;">
+<div id="pdf-container"></div>
+<div id="toc">
+<h2 style="font-family:arial; text-align:center; text-shadow:1px 1px 5px #808080; margin-top:10pt;">SHEET MUSIC FOR VIOLIN</h2>
+<ol>
+	<li><span class="lnk" data="Bach_Air_On_The_G_String.pdf">Bach: Air on the G String</span></li>
+	<li><span class="lnk" data="Beethoven_Minuet_in_G.pdf">Beethoven: Minuet in G</span></li>
+	<li><span class="lnk" data="Chopin_Nocturne_in_C_Minor_No20.pdf">Chopin: Nocturne in C Minor No. 20</span></li>
+    <li><span class="lnk" data="Clair_de_Lune_for_Violin.pdf">Debussy: Clair de Lune for Violin</span></li>
+    <li><span class="lnk" data="Dvorak_Four_Romantic_Pieces_No1.pdf">Dvorak: Four Romantic Pieces No.1</span></li>
+    <li><span class="lnk" data="Dvorak_Humoresque.pdf">Dvorak: Humoresque</span></li>
+    <li><span class="lnk" data="Ave_Maria.pdf">Gounod: Ave Maria</span></li>
+    <li><span class="lnk" data="Kreisler_Liebesfreud.pdf">Kreisler: Liebesfreud</span></li>
+    <li><span class="lnk" data="Kreisler_Liebesleid.pdf">Kreisler: Liebesleid</span></li>
+	<li><span class="lnk" data="Massenet_Meditation.pdf">Massenet: Meditation</span></li>
+	<li><span class="lnk" data="Monti_Czardas.pdf">Monti: Czardas</span></li>
+    <li><span class="lnk" data="Mozart_Minuet_in_D.pdf">Mozart: Minuet in D</span></li>
+    <li><span class="lnk" data="LE_CYGNE.pdf">Saint-Saens: Le Cygne</span></li>
+	<li><span class="lnk" data="Romanza_Andaluza.pdf">Sarasate: Romanza Andaluza</span></li>
+	<li><span class="lnk" data="Schubert_Serenade.pdf">Schubert: Serenade</span></li>
+	<li><span class="lnk" data="Schumann_Traumerei.pdf">Schumann: Traumerei</span></li>
+	<li><span class="lnk" data="Telemann_Violin_Fantasia_No1.pdf">Telemann: 12 Violin Fantacias No.1</span></li>
+    <li><span class="lnk" data="schindler.pdf">Williams: Theme from the Schindler's List</span></li>
+	<li><span class="lnk simsun" data="Butterfly_Lovers.pdf">陈钢、何占豪：梁山伯与祝英台</span></li>
+	<li><span class="lnk simsun" data="Fishing_boat.pdf">黎国荃：渔舟唱晚</span></li>
+	<li><span class="lnk simsun" data="Fishermans_harvest_song.pdf">李自立：丰收渔歌</span></li>
+	<li><span class="lnk simsun" data="Ma_Sicong_Pastoral_Song.pdf">马思聪：牧歌</span></li>
+	<li><span class="lnk simsun" data="Song_of_Nostalgia.pdf">马思聪：思乡曲</span></li>
+	<li><span class="lnk simsun" data="新疆之春.pdf">马耀先、李中汉：新疆之春</span></li>
+	<li><span class="lnk simsun" data="新春乐.pdf">茅沅：新春乐</span></li>
+	<li><span class="lnk simsun" data="Tone_poem_at_seashore.pdf">秦咏诚：海滨音诗</span></li>
+	<li><span class="lnk simsun" data="我和我的祖国.pdf">秦咏诚：我和我的祖国</span></li>
+    <li><span class="lnk simsun" data="sdd-violin.pdf">陕北民歌：山丹丹开花红艳艳</span></li>
+	<li><span class="lnk simsun" data="The_Ruili_riverside.pdf">施光南：瑞丽江边</span></li>
+	<li><span class="lnk simsun" data="Silver Moonlight.pdf">王洛宾：在那银色的月光下</span></li>
+	<!--<li><span class="lnk" data=""></span></li>-->
+</ol>
+</div>
+</body>
+</html>
