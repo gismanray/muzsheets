@@ -37,7 +37,7 @@
 	
     async function loadPdf(pdfUrl) {
 		document.getElementById("pdf-container").innerHTML = '';
-		const pdf = await pdfjsLib.getDocument("https://gismanray.github.io/muzsheets/pdf/"+pdfUrl).promise;
+		const pdf = await pdfjsLib.getDocument("pdf/"+pdfUrl).promise;
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             const page = await pdf.getPage(pageNum);
