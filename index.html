@@ -64,12 +64,12 @@
 		Array.from(items).forEach((item, index) => {
 			//console.log(index + ": " + item.innerText);
 			item.addEventListener("click", function(e) {
-				if (tocitem == null || (this.getAttribute("data") != tocitem.getAttribute("data"))) loadPdf(this.getAttribute("data"));
+				if (tocitem == null || (this.getAttribute("data") != tocitem.getAttribute("data"))) {
+					loadPdf(this.getAttribute("data"));
+				}
 				this.classList.remove('lnk');
 				this.classList.add('act');
-				//this.style.color = "#ff0000";
 				if (tocitem) {
-					//tocitem.style.color = "";
 					tocitem.classList.remove('act');
 					tocitem.classList.add('lnk');
 				}
