@@ -23,6 +23,7 @@
 		.lnk:hover { color: red; }
 		.simsun { font-family: simsun; }
 		li   { line-height: 18pt; }
+		.act { color: red; pointer:default; }
     </style>
 </head>
 
@@ -63,11 +64,13 @@
 		Array.from(items).forEach((item, index) => {
 			//console.log(index + ": " + item.innerText);
 			item.addEventListener("click", function(e) {
-				loadPdf(this.getAttribute("data"));
+				if (this.getAttribute("data") != tocitem.getAttribute("data")) loadPdf(this.getAttribute("data"));
 				this.classList.remove('lnk');
-				this.style.color = "#ff0000";
+				this.classList.add('act');
+				//this.style.color = "#ff0000";
 				if (tocitem) {
-					tocitem.style.color = "";
+					//tocitem.style.color = "";
+					tocitem.classList.remove('act');
 					tocitem.classList.add('lnk');
 				}
 				tocitem = item;
